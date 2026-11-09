@@ -431,7 +431,8 @@ int atlas_cmd_dsp(int argc, char **argv)
             fprintf(stderr, "La tarjeta no está en la Hardware DB; registra primero con hardware-register.\n");
             return 1;
         }
-        buf = malloc(cap);
+        if (!(buf = malloc(cap)))
+            return 1;
         len += snprintf(buf + len, cap - len, "# Preset DSP guardado por audio-profile (%s)\n", s.hw_id);
         for (i = 0; i < s.n; i++) {
             const AtlasDspControl *c = &s.c[i];

@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-24.04
+    # Ubuntu 24.04 trae WirePlumber 0.4; Debian 13 ya trae la 0.5.
+    container: debian:trixie
+    steps:
+      - name: Dependencias
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            build-essential pkg-config git ca-certificates python3 shellcheck \
+            libpipewire-0.3-dev libwireplumber-0.5-dev libjson-glib-dev \
+            libglib2.0-dev libasound2-dev
+
+      - uses: actions/checkout@v4
+
+      - name: Compilar
+        # Los recortes de rutas con snprintf son intencionados (igual que en tests/Makefile).
+        run: make -j"$(nproc)" CFLAGS="-O2 -Werror -Wno-format-truncation"
+
+      - name: Pruebas
+        run: make test
+
+      - name: Pruebas con ASan/UBSan
+        run: make test-asan
+
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Análisis estático
+        run: make lint

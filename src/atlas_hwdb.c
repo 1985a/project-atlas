@@ -167,15 +167,19 @@ int atlas_hw_discover(AtlasHwDevice *out, int max)
         norm_id(d->subsystem_vendor, sizeof(d->subsystem_vendor));
         norm_id(d->subsystem_device, sizeof(d->subsystem_device));
 
+        /* "Codec:" es la primera línea; el resto del archivo ocupa varios KB. */
         for (k = 0; k < 4 && !d->codec[0]; k++) {
-            char *s, *c;
+            char line[256];
+            FILE *f;
             snprintf(path, sizeof(path), "%s/asound/card%d/codec#%d", proc, card, k);
-            if ((s = atlas_read_file(path, 2048)) && (c = strstr(s, "Codec:"))) {
-                c[strcspn(c, "\n")] = '\0';
-                cpy(d->codec, sizeof(d->codec), c + 6);
+            if (!(f = fopen(path, "r")))
+                continue;
+            if (fgets(line, sizeof(line), f) && strncmp(line, "Codec:", 6) == 0) {
+                line[strcspn(line, "\n")] = '\0';
+                cpy(d->codec, sizeof(d->codec), line + 6);
                 trim(d->codec);
             }
-            free(s);
+            fclose(f);
         }
 
         if (d->subsystem_vendor[0])

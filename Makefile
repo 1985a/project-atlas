@@ -2,10 +2,12 @@ CC ?= gcc
 
 PKGS = libpipewire-0.3 wireplumber-0.5 json-glib-1.0 gio-2.0 gio-unix-2.0 alsa
 
+# CFLAGS, CPPFLAGS, LDFLAGS y LDLIBS quedan para el usuario (`make CFLAGS=-O3` no
+# pierde los includes ni las librerías); lo imprescindible va en las variables ATLAS_*.
 CFLAGS ?= -O2
-CFLAGS += -Wall -Wextra -Iinclude -Iinclude/common
-CFLAGS += $(shell pkg-config --cflags $(PKGS))
-LDLIBS += $(shell pkg-config --libs $(PKGS)) -lm
+ATLAS_CPPFLAGS = -Iinclude -Iinclude/common $(shell pkg-config --cflags $(PKGS))
+ATLAS_CFLAGS   = -std=gnu17 -Wall -Wextra -MMD -MP
+ATLAS_LDLIBS   = $(shell pkg-config --libs $(PKGS)) -lm
 
 # Instalación: por defecto en el usuario (no necesita root ni espacio en /).
 #   make install                      -> ~/.local
@@ -59,7 +61,7 @@ SRC = \
 	src/ppm_device.c
 
 OBJ = $(SRC:.c=.o)
-HDR = $(wildcard include/*.h include/*/*.h)
+DEP = $(OBJ:.o=.d)
 
 .DEFAULT_GOAL := all
 .PHONY: all clean test test-asan lint install install-gui uninstall run-gui print-src
@@ -70,9 +72,13 @@ print-src:
 all: audio-profile
 
 audio-profile: $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LDFLAGS) $(LDLIBS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJ) $(ATLAS_LDLIBS) $(LDLIBS)
 
-$(OBJ): $(HDR)
+# Cada objeto depende solo de las cabeceras que incluye (archivos .d de -MMD).
+%.o: %.c
+	$(CC) $(ATLAS_CPPFLAGS) $(CPPFLAGS) $(ATLAS_CFLAGS) $(CFLAGS) -c -o $@ $<
+
+-include $(DEP)
 
 test: audio-profile
 	./tests/run-tests.sh
@@ -119,4 +125,4 @@ run-gui: audio-profile
 	ATLAS_CLI=./audio-profile ./gui/bin/atlas-audio
 
 clean:
-	rm -f $(OBJ) audio-profile
+	rm -f $(OBJ) $(DEP) audio-profile

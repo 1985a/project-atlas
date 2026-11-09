@@ -1,5 +1,6 @@
 # Compilación
 *.o
+*.d
 *.a
 *.so
 *.so.*

@@ -26,6 +26,7 @@ make lint        # gcc -fanalyzer + ruff (Python) + shellcheck (shell)
 
 Las tres tienen que salir limpias. `make lint` usa `uvx` para ruff y shellcheck
 si no están instalados.
+El CI de GitHub (`.github/workflows/ci.yml`, Debian 13) las ejecuta en cada push.
 
 `tests/run-tests.sh` ejecuta cada prueba con `ATLAS_CONFIG_DIR` y
 `ATLAS_STATE_DIR` en un directorio temporal, así que nunca toca

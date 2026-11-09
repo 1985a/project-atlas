@@ -2,6 +2,16 @@
 
 ## Sin publicar
 
+### Mantenimiento (2026-11-09)
+- El detector de tarjetas ya no llena el journal con «/proc/asound/cardN/codec#M supera
+  2048 bytes»: lee solo la primera línea (`Codec:`), que es lo único que necesita.
+- Makefile: `make CFLAGS=...` ya no pierde los includes ni las librerías, y cada objeto
+  depende solo de las cabeceras que incluye (`-MMD`); antes cualquier cabecera recompilaba
+  todo.
+- `dsp save` comprueba la reserva de memoria.
+- CI en GitHub Actions (Debian 13): compilación con `-Werror`, `make test`,
+  `make test-asan` y `make lint` en cada push.
+
 ### Revisión de buenas prácticas (2026-11-08)
 - **Seguridad**: `ppm_exec` ya no usa `system()`. Volumen, mute, salida por defecto y
   `move` ejecutan sin shell; un valor de perfil o un nombre de nodo con `;`, comillas o
