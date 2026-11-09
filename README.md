@@ -9,6 +9,24 @@ trabajar:
 
 Hardware de referencia: Sound Blaster Z (CA0132) + Logitech X-530 5.1.
 
+![Atlas Audio: inicio](docs/capturas/home.png)
+
+<details>
+<summary><b>Más capturas</b></summary>
+
+| | |
+|---|---|
+| ![Perfiles y modo automático/manual](docs/capturas/profiles.png) | ![Efectos del DSP](docs/capturas/effects.png) |
+| **Perfiles**: modo automático o manual y perfiles por uso | **Efectos** del DSP de la tarjeta |
+| ![Ecualizador de 10 bandas](docs/capturas/eq.png) | ![Altavoces 5.1](docs/capturas/speakers.png) |
+| **Ecualizador** de 10 bandas | **Altavoces**: prueba por canal, graves y audio base |
+| ![Recuperación](docs/capturas/recover.png) | ![Hardware DB](docs/capturas/hardware.png) |
+| **Recuperación** y protección al suspender | **Hardware**: tarjetas reconocidas por identidad estable |
+| ![Diagnóstico](docs/capturas/diag.png) | |
+| **Diagnóstico** con el comando exacto para cada arreglo | |
+
+</details>
+
 ## Instalar
 
 ```bash

@@ -43,6 +43,13 @@ STATE_DIR = Path(os.environ.get("ATLAS_STATE_DIR") or
                  Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state")) / "audio-profile")
 
 
+def display_path(path) -> str:
+    """Ruta para mostrar en pantalla: la carpeta personal como "~" (sin el nombre de usuario)."""
+    text = str(path)
+    home = str(Path.home())
+    return "~" + text[len(home):] if text == home or text.startswith(home + "/") else text
+
+
 class CliError(RuntimeError):
     pass
 

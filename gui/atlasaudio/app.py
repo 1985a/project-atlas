@@ -451,8 +451,8 @@ class ProfilesPage(Gtk.Box):
         self.win = win
         self._upd = False
         box = page_box()
-        box.append(page_header("Perfiles", "Cada perfil ajusta la latencia de PipeWire y el DSP de la tarjeta "
-                                           "(efectos, ecualizador) para un uso concreto."))
+        box.append(page_header("Perfiles", "Cada perfil ajusta la latencia de PipeWire para un uso concreto. "
+                                           "Tus efectos y ecualizador se mantienen con todos."))
 
         auto = panel()
         top = Gtk.Box(spacing=12)
@@ -824,8 +824,8 @@ class EqPage(Gtk.Box):
             self.dbs.append(db)
         top.append(sliders)
         box.append(top)
-        box.append(lbl("Consejo: los cambios se aplican al instante. Para conservarlos en un perfil, guárdalos "
-                       "desde Efectos con el nombre del perfil (p. ej. «racing»).", ["dim", "small"], wrap=True))
+        box.append(lbl("Los cambios se aplican al instante y se guardan como tu sonido: se mantienen con "
+                       "todos los perfiles y tras reiniciar.", ["dim", "small"], wrap=True))
         self.append(scrolled(box))
         self.items = []
 
@@ -969,10 +969,11 @@ class SpeakersPage(Gtk.Box):
         # --- base de volumen ---------------------------------------------------
         vb = panel("Volumen base por altavoz",
                    subtitle="Tu referencia estable (importada de ~/.config/asound.state). Se aplica con todos "
-                            "los perfiles: cada perfil solo cambia efectos y ecualizador encima de esta base.")
+                            "los perfiles y Atlas la restaura sola si algo la cambia.")
         grid = Gtk.Grid(column_spacing=14, row_spacing=8)
         self.vol = {}
-        vb.append(lbl("Master es tu mando de volumen (teclas de volumen) y no se fija en la base.",
+        vb.append(lbl("Incluye el Master de la tarjeta. Tus teclas de volumen siguen funcionando: con la "
+                      "protección activada mueven el volumen de PipeWire, no el de la tarjeta.",
                       ["dim", "small"], wrap=True))
         lk = Gtk.Box(spacing=8, css_classes=["check-row"])
         lkc = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, hexpand=True)
@@ -1766,7 +1767,7 @@ class MainWindow(Adw.ApplicationWindow):
                 self.pages["profiles"].set_profiles(self.profiles, r.get("profile"))
             c = r.get("clock", {})
             self.statusbar.set_label(
-                f"Atlas {__version__} · CLI {be.CLI} · {c.get('rate', '?')} Hz / quantum "
+                f"Atlas {__version__} · CLI {be.display_path(be.CLI)} · {c.get('rate', '?')} Hz / quantum "
                 f"{c.get('force_quantum') or c.get('quantum', '?')} · {h.get('audio', {}).get('playback_streams', 0)} "
                 f"stream(s)")
         be.run_async(be.status, done, probe)
