@@ -1,0 +1,34 @@
+{
+  "driver": "snd_hda_codec_ca0132",
+  "notes": [
+    "CA0132 puede tener controles ALSA que fallan al restaurar con alsactl completo.",
+    "Es preferible usar un preset controlado (dsp/*.conf) o asound.state validado.",
+    "No tocar volumen de hardware con wpctl set-volume salvo que el usuario lo pida explicitamente."
+  ],
+  "known_bugs": [
+    {
+      "id": "CA0132-0001",
+      "description": "Wedge Angle Capture Volume puede quedar en 10 con minimo 20; alsactl restore completo lo rechaza.",
+      "severity": "warning",
+      "workaround": "Usar presets DSP por control (audio-profile dsp apply) en lugar de alsactl restore completo."
+    },
+    {
+      "id": "CA0132-0002",
+      "description": "El volumen de hardware no debe modificarse con wpctl.",
+      "severity": "important",
+      "workaround": "Modificar el volumen del sink de PipeWire o los controles del preset."
+    },
+    {
+      "id": "CA0132-0003",
+      "description": "BUG-001: tras suspender (S3) con el PCM abierto, el DMA queda atascado: PCM RUNNING con hw_ptr fijo y sin sonido, aunque servicios y pactl parezcan sanos. En el kernel aparece 'AMD-Vi: IO_PAGE_FAULT' de snd_hda_intel al reanudar.",
+      "severity": "high",
+      "workaround": "audio-profile-watch cierra el perfil de la tarjeta antes de suspender (inhibidor delay de logind) y lo restaura al reanudar; si aun asi falla, recover reabre la tarjeta (nivel 1) sin reiniciar PipeWire."
+    },
+    {
+      "id": "CA0132-0004",
+      "description": "Al reiniciar PipeWire, xdg-desktop-portal-wlr aborta (loop_leave assertion) y systemd lo deja en start-limit-hit.",
+      "severity": "warning",
+      "workaround": "recover hace reset-failed y reinicia el portal tras reiniciar PipeWire."
+    }
+  ]
+}

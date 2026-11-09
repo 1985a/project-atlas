@@ -1,0 +1,59 @@
+# Compilación
+*.o
+*.a
+*.so
+*.so.*
+*.out
+
+# Ejecutables
+audio-profile
+ppm
+
+# Directorios de compilación
+build/
+cmake-build-*/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+CTestTestfile.cmake
+Testing/
+
+# Archivos temporales
+*~
+*.swp
+*.swo
+*.tmp
+
+# Logs
+*.log
+
+# Backups
+backups/
+
+# IDE
+.vscode/
+.idea/
+
+# Archivos del sistema
+.DS_Store
+backup/
+reports/
+
+# Ejecutables generados por las pruebas
+tests/test_backend
+tests/test_profile
+tests/test_profile_apply
+tests/test_runtime
+tests/test_string
+tests/test_vector
+tests/test_probe
+tests/test_hwdb
+tests/test_auto
+tests/test_base
+tests/test_steam
+tests/test_conf
+__pycache__/
+*.pyc

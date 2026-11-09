@@ -1,0 +1,138 @@
+# Project Atlas · reglas de perfiles automáticos (de fábrica)
+#
+# Formato:  <perfil>  <condición> [<condición>...]     (todas deben cumplirse)
+#   binary=<glob>   ejecutable (application.process.binary), comodines * ?
+#   app~<texto>     nombre de la aplicación contiene <texto>
+#   media~<texto>   nombre del stream contiene <texto>
+#   title~<texto>   título de la ventana (Sway) o de lo que suena por MPRIS; "_" = espacio
+#   url~<texto>     URL de lo que suena (MPRIS, si el navegador la publica)
+#   genre=<clase>   género del juego de Steam: racing | fps | adventure | gaming
+#   role=<rol>      media.role (music, video, game, phone...)
+#   steam=<appid>   juego de Steam (variable SteamAppId), o steam=* para cualquiera
+#
+# Por cada stream gana la PRIMERA regla que coincide. Entre varios streams
+# gana el perfil con mayor prioridad (juegos > retro > llamadas > música...).
+# Tus reglas van en ~/.config/audio-profile/auto.rules y se leen antes que
+# estas (audio-profile auto assign <perfil> <condición> las añade).
+
+# --- Llamadas y streaming -------------------------------------------------
+voice        role=phone
+voice        binary=discord
+voice        binary=Discord
+voice        binary=vesktop
+voice        binary=zoom
+voice        binary=teams*
+voice        binary=mumble
+streaming    binary=obs
+
+# --- Retro: RetroArch y emuladores ---------------------------------------
+retro        binary=retroarch
+retro        app~RetroArch
+retro        binary=dolphin-emu*
+retro        binary=pcsx2*
+retro        binary=duckstation*
+retro        binary=ppsspp*
+retro        binary=mame
+retro        binary=snes9x*
+retro        binary=mgba*
+retro        binary=mednafen
+retro        binary=flycast
+retro        binary=melonDS
+retro        binary=Ryujinx
+retro        binary=cemu
+retro        binary=rpcs3
+
+# --- Juegos de Steam con género conocido ---------------------------------
+fps          steam=730          # Counter-Strike 2
+fps          steam=1172470      # Apex Legends
+fps          steam=2357570      # Overwatch 2
+fps          steam=440          # Team Fortress 2
+fps          steam=1085660      # Destiny 2
+fps          steam=578080       # PUBG
+fps          steam=359550       # Rainbow Six Siege
+fps          steam=782330       # DOOM Eternal
+racing       steam=1551360      # Forza Horizon 5
+racing       steam=1293830      # Forza Horizon 4
+racing       steam=2440510      # Forza Motorsport
+racing       steam=244210       # Assetto Corsa
+racing       steam=805550       # Assetto Corsa Competizione
+racing       steam=284160       # BeamNG.drive
+racing       steam=690790       # DiRT Rally 2.0
+adventure    steam=1091500      # Cyberpunk 2077
+adventure    steam=1245620      # ELDEN RING
+adventure    steam=292030       # The Witcher 3
+adventure    steam=1174180      # Red Dead Redemption 2
+adventure    steam=1086940      # Baldur's Gate 3
+adventure    steam=2050650      # Resident Evil 4
+adventure    steam=1593500      # God of War
+
+# --- Resto de Steam: género automático (etiquetas de la comunidad) -------
+racing       genre=racing
+fps          genre=fps
+adventure    genre=adventure
+
+# --- Cualquier otro juego -------------------------------------------------
+gaming       steam=*
+gaming       role=game
+gaming       binary=*.exe
+gaming       binary=wine*
+gaming       binary=gamescope
+
+# --- Música ---------------------------------------------------------------
+# (title~ también mira lo que suena por MPRIS: sirve con la pestaña en segundo plano)
+music        url~music.youtube.com
+music        url~open.spotify.com
+music        url~soundcloud.com
+music        title~YouTube_Music
+music        title~Spotify
+music        title~SoundCloud
+music        binary=mpd
+music        binary=spotify
+music        binary=strawberry
+music        binary=rhythmbox
+music        binary=elisa
+music        binary=audacious
+music        binary=deadbeef
+music        binary=cmus
+music        binary=clementine
+music        binary=lollypop
+music        binary=amberol
+music        binary=quodlibet
+music        binary=tauon
+music        role=music
+
+# --- Vídeo en línea (pestaña activa o lo que suena por MPRIS) -------------
+video        url~youtube.com
+video        url~youtu.be
+video        url~twitch.tv
+video        url~netflix.com
+video        url~primevideo.com
+video        url~disneyplus.com
+video        url~crunchyroll.com
+video        title~YouTube
+video        title~Twitch
+video        title~Netflix
+video        title~Prime_Video
+video        title~Disney+
+video        title~Crunchyroll
+
+# --- Películas locales ----------------------------------------------------
+cinema       binary=mpv
+cinema       binary=vlc
+cinema       binary=celluloid
+cinema       binary=haruna
+cinema       binary=totem
+cinema       binary=kodi*
+cinema       binary=jellyfin*
+cinema       binary=smplayer
+cinema       role=video
+
+# --- Navegación general ---------------------------------------------------
+browsing     binary=brave
+browsing     binary=firefox
+browsing     binary=librewolf
+browsing     binary=chromium
+browsing     binary=chrome
+browsing     binary=vivaldi*
+browsing     binary=opera
+browsing     binary=epiphany

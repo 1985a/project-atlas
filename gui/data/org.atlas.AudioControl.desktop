@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Atlas Audio
+GenericName=Centro de control de audio
+Comment=Perfiles, efectos, ecualizador, altavoces, recuperación y diagnóstico de audio (Project Atlas)
+Exec=@BINDIR@/atlas-audio
+Icon=org.atlas.AudioControl
+Terminal=false
+Categories=AudioVideo;Audio;Mixer;Settings;GTK;
+Keywords=audio;sonido;pipewire;ecualizador;equalizer;sound blaster;ca0132;altavoces;perfil;
+StartupNotify=true

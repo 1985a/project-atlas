@@ -1,0 +1,7 @@
+{
+  "name": "optimal",
+  "description": "Configuracion optima actual del usuario para Sound Blaster Z + Logitech X-530 5.1",
+  "alsa_state": "presets/alsa/ca0132-optimal.state",
+  "default_sink_hint": "CA0132",
+  "default_source_hint": "CA0132"
+}

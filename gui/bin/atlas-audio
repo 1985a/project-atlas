@@ -1,0 +1,16 @@
+#!/usr/bin/python3
+"""Lanzador de Atlas Audio (interfaz gráfica de Project Atlas)."""
+import os
+import sys
+
+here = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+lib = os.path.join(os.path.dirname(here), "lib", "audio-profile")
+for path in (here, lib, os.path.expanduser("~/.local/lib/audio-profile"), "/usr/local/lib/audio-profile",
+             "/usr/lib/audio-profile"):
+    if os.path.isdir(os.path.join(path, "atlasaudio")):
+        sys.path.insert(0, path)
+        break
+
+from atlasaudio.app import main  # noqa: E402
+
+sys.exit(main(sys.argv))

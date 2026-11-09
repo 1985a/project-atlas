@@ -1,0 +1,19 @@
+[Unit]
+Description=Project Atlas: protección de audio al suspender y perfiles automáticos
+Documentation=https://github.com/1985a/project-atlas/blob/main/docs/BUG-001.md
+After=pipewire.service pipewire-pulse.service wireplumber.service
+Wants=pipewire-pulse.service
+
+[Service]
+Type=simple
+ExecStart=@BINDIR@/audio-profile watch
+Restart=on-failure
+RestartSec=3
+# Trabajo de fondo: nunca debe competir con juegos ni con el audio
+Nice=10
+IOSchedulingClass=idle
+MemoryHigh=48M
+MemoryMax=96M
+
+[Install]
+WantedBy=default.target

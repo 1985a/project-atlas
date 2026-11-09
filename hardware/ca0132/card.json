@@ -1,0 +1,44 @@
+{
+  "id": "ca0132",
+  "name": "Creative Sound Blaster Z",
+  "chip": "CA0132",
+  "model": "SB1570",
+  "manufacturer": "Creative Labs",
+  "aliases": ["sbz", "sound-blaster-z", "sb1570"],
+  "speaker_profile": "Logitech X-530 5.1",
+  "recommended_profile": "optimal",
+  "match": [
+    {
+      "bus": "pci",
+      "vendor": "0x1102",
+      "device": "0x0012",
+      "subsystem_vendor": "0x1102",
+      "subsystem_device": "0x0010"
+    }
+  ],
+  "quirks": [
+    "close-pcm-before-sleep",
+    "dsp-reload-on-resume",
+    "no-hw-volume-via-wpctl"
+  ],
+  "headphones": {
+    "jack": "Front Headphone Jack",
+    "card_profile": "output:analog-stereo+input:analog-stereo",
+    "speakers_card_profile": "output:analog-surround-51+input:analog-stereo",
+    "notes": "Output Select=Headphone activa el amplificador de auriculares. PipeWire pasa a estéreo para mezclar el 5.1; el surround virtual del DSP (FX: Surround) recrea la espacialidad."
+  },
+  "speakers": {
+    "model": "Logitech X-530",
+    "layout": "5.1",
+    "satellites": "5 satélites de rango limitado (no reproducen graves profundos)",
+    "subwoofer": "subwoofer activo alimentado solo por el canal LFE",
+    "recommended_crossover_hz": 120,
+    "notes": "Con Bass Redirection activo y los satélites como no full-range, la tarjeta envía al subwoofer los graves de todos los canales."
+  },
+  "dsp_controls": {
+    "crossover_scale": "valor x 10 Hz (tabla float_xbass_xover_lookup del driver: 1=10 Hz ... 100=1000 Hz)",
+    "eq_bands_hz": [31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000],
+    "eq_zero_db": 24,
+    "eq_range_db": [-24, 24]
+  }
+}
