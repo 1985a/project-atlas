@@ -18,7 +18,12 @@ jobs:
             libpipewire-0.3-dev libwireplumber-0.5-dev libjson-glib-dev \
             libglib2.0-dev libasound2-dev
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+
+      # El checkout es de otro usuario que el del contenedor; sin esto git ls-files
+      # (lo usa make lint para encontrar los scripts) no devuelve nada.
+      - name: Repositorio seguro para git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Compilar
         # Los recortes de rutas con snprintf son intencionados (igual que en tests/Makefile).
